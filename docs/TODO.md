@@ -1,13 +1,24 @@
 # TODO - Phat9k
 
+## Completed
+
+- [x] Implement lexical analyzer (lexer)
+- [x] Implement token types for PHP
+- [x] Implement recursive descent parser
+- [x] Implement AST node types
+- [x] Add PHP 8.5 syntax support
+- [x] Implement parse command in CLI
+- [x] Write unit tests for parser
+- [x] Write integration tests
+- [x] Add PHP test fixtures (examples)
+- [x] Write API documentation (code comments)
+- [x] Add examples
+
 ## Parser
 
-- [ ] Implement lexical analyzer (lexer)
-- [ ] Implement token types for PHP
-- [ ] Implement recursive descent parser
-- [ ] Implement AST node types
-- [ ] Add PHP 8.5 syntax support
-- [ ] Add error reporting with source locations
+- [ ] Complete error reporting with source locations
+- [ ] Handle all edge cases in PHP syntax
+- [ ] Add more AST node types (expressions, etc.)
 
 ## Analyzer
 
@@ -26,6 +37,7 @@
 - [ ] Implement scope management
 - [ ] Add exception handling
 - [ ] Add sandboxing with resource limits
+- [ ] Implement run command in CLI
 
 ## Transpiler
 
@@ -34,10 +46,11 @@
 - [ ] Add PHP standard library to Go mapping
 - [ ] Implement Go code generation
 - [ ] Add Go module structure generation
+- [ ] Implement transpile command in CLI
 
 ## CLI
 
-- [ ] Implement parse command
+- [x] Implement parse command
 - [ ] Implement analyze command
 - [ ] Implement run command
 - [ ] Implement transpile command
@@ -46,13 +59,21 @@
 
 ## Testing
 
-- [ ] Write unit tests for parser
+- [x] Write unit tests for parser
 - [ ] Write unit tests for analyzer
-- [ ] Write integration tests
-- [ ] Add PHP test fixtures
+- [x] Write integration tests
+- [x] Add PHP test fixtures
+- [ ] Add more coverage (>80%)
+
+## Tools
+
+- [x] Add pre-commit configuration
+- [x] Add GitHub CI workflow
+- [x] Add Makefile
+- [x] Add golangci-lint config
 
 ## Documentation
 
-- [ ] Write API documentation
-- [ ] Write usage guide
-- [ ] Add examples
+- [x] Write API documentation
+- [x] Write usage guide
+- [x] Add examples
