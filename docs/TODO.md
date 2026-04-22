@@ -13,14 +13,15 @@
 - [x] Implement transpile command in CLI
 - [x] Write unit tests for parser
 - [x] Write integration tests
-- [x] Add PHP test fixtures
+- [x] Add PHP test fixtures (examples/)
 - [x] Add examples
+- [x] Add tests.yml with test results
 
 ## Parser
 
 - [ ] Complete error reporting with source locations
+- [ ] Fix infinite loop in control flow parsing
 - [ ] Handle all edge cases in PHP syntax
-- [ ] Add more AST node types
 
 ## Analyzer
 
@@ -34,11 +35,13 @@
 - [x] Implement runtime environment
 - [x] Implement scope management
 - [x] Add built-in function registry (basic)
+- [ ] Add more PHP stdlib functions
 
 ## Transpiler
 
 - [x] Implement PHP to Go transformation
 - [x] Implement Go code generation
+- [ ] Add more PHP stdlib mappings
 
 ## CLI
 
@@ -46,6 +49,8 @@
 - [x] Implement analyze command
 - [x] Implement run command
 - [x] Implement transpile command
+- [ ] Add flags and options
+- [ ] Add configuration file support
 
 ## Tools
 
@@ -54,8 +59,15 @@
 - [x] Add Makefile
 - [x] Add golangci-lint config
 
-## Next
+## Test Results (tests.yml)
 
-- Add more test coverage
-- Improve error handling
-- Add more transpiler mappings for PHP stdlib
+Current success rates (~23 example files):
+- Parser: ~65%
+- Interpreter: ~30%
+- Transpiler: ~35%
+
+## Known Issues
+
+- Parser infinite loop for control flow statements
+- Arrays not fully supported in interpreter
+- Some PHP stdlib functions not implemented
