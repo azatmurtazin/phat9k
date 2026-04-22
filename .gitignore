@@ -1,0 +1,25 @@
+# Binaries
+/phat9k
+phat9k.exe
+
+# Coverage
+coverage.out
+coverage.html
+*.out
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test output
+testdata/
+
+# Go
+go.work
+go.work.sum
