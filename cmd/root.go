@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/phat9k/analyzer"
-	"github.com/phat9k/interpreter"
-	"github.com/phat9k/parser"
-	"github.com/phat9k/transpiler"
+	"github.com/azatmurtazin/phat9k/analyzer"
+	"github.com/azatmurtazin/phat9k/interpreter"
+	"github.com/azatmurtazin/phat9k/parser"
+	"github.com/azatmurtazin/phat9k/transpiler"
 )
 
 func Run(args []string) error {

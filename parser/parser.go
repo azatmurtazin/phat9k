@@ -3,8 +3,8 @@ package parser
 import (
 	"fmt"
 
-	"github.com/phat9k/internal/ast"
-	"github.com/phat9k/internal/token"
+	"github.com/azatmurtazin/phat9k/internal/ast"
+	"github.com/azatmurtazin/phat9k/internal/token"
 )
 
 type Parser struct {

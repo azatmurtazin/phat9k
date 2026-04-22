@@ -3,7 +3,7 @@ package analyzer
 import (
 	"testing"
 
-	"github.com/phat9k/parser"
+	"github.com/azatmurtazin/phat9k/parser"
 )
 
 func TestAnalyzer_FunctionDef(t *testing.T) {

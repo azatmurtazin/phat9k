@@ -3,7 +3,7 @@ package analyzer
 import (
 	"fmt"
 
-	"github.com/phat9k/internal/ast"
+	"github.com/azatmurtazin/phat9k/internal/ast"
 )
 
 type Symbol struct {

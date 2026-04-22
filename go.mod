@@ -1,3 +1,3 @@
-module github.com/phat9k
+module github.com/azatmurtazin/phat9k
 
 go 1.23
