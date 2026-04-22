@@ -1,10 +1,11 @@
 <?php
 
 $array = [1, 2, 3, 4, 5];
-echo count($array) . "\n";
+echo "Count: " . count($array) . "\n";
 
 $associative = ["name" => "John", "age" => 30];
-echo $associative["name"] . "\n";
+echo "Name: " . $associative["name"] . "\n";
+echo "Age: " . $associative["age"] . "\n";
 
 $array[] = 6;
-print_r($array);
+echo "Last: " . end($array) . "\n";

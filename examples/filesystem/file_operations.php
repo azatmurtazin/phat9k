@@ -1,14 +1,11 @@
 <?php
 
-$filename = "test.txt";
-
-if (file_exists($filename)) {
+if (file_exists("/tmp/test.txt")) {
     echo "File exists\n";
-    echo file_get_contents($filename);
 } else {
-    echo "Creating file\n";
-    file_put_contents($filename, "Hello, World!");
+    echo "File not found\n";
 }
 
-$files = scandir(".");
-print_r($files);
+$dir = __DIR__;
+$files = scandir($dir);
+echo "Scanned " . count($files) . " items\n";

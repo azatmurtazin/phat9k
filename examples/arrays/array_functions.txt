@@ -1,0 +1,5 @@
+Sum: 15
+Min: 1
+Max: 5
+Has 3: yes
+Keys: a, b

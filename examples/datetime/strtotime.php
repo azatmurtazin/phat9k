@@ -1,10 +1,10 @@
 <?php
 
-$tomorrow = strtotime("+1 day");
-echo date("Y-m-d", $tomorrow) . "\n";
+$d = strtotime("2026-04-23");
+echo "Tomorrow: " . date("Y-m-d", $d) . "\n";
 
-$nextWeek = strtotime("+1 week");
-echo date("Y-m-d", $nextWeek) . "\n";
+$w = strtotime("2026-04-27");
+echo "Next week: " . date("Y-m-d", $w) . "\n";
 
-$timestamp = mktime(0, 0, 0, 1, 1, 2025);
-echo date("Y-m-d", $timestamp) . "\n";
+$d2 = mktime(0, 0, 0, 1, 1, 2026);
+echo "Jan 1: " . date("Y-m-d", $d2) . "\n";
