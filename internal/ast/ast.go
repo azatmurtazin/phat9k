@@ -14,7 +14,7 @@ type Program struct {
 	Body []Statement
 }
 
-func (p *Program) NodeType() string   { return "Program" }
+func (p *Program) NodeType() string { return "Program" }
 func (p *Program) String() string {
 	var b strings.Builder
 	for _, s := range p.Body {
@@ -38,33 +38,33 @@ type Literal struct {
 	Value string
 }
 
-func (l *Literal) expressionNode()      {}
-func (l *Literal) NodeType() string      { return "Literal" }
-func (l *Literal) String() string       { return l.Value }
+func (l *Literal) expressionNode()  {}
+func (l *Literal) NodeType() string { return "Literal" }
+func (l *Literal) String() string   { return l.Value }
 
 type NumberLiteral struct {
 	Value string
 }
 
-func (n *NumberLiteral) expressionNode()     {}
-func (n *NumberLiteral) NodeType() string   { return "NumberLiteral" }
-func (n *NumberLiteral) String() string    { return n.Value }
+func (n *NumberLiteral) expressionNode()  {}
+func (n *NumberLiteral) NodeType() string { return "NumberLiteral" }
+func (n *NumberLiteral) String() string   { return n.Value }
 
 type StringLiteral struct {
 	Value string
 }
 
-func (s *StringLiteral) expressionNode()    {}
-func (s *StringLiteral) NodeType() string  { return "StringLiteral" }
-func (s *StringLiteral) String() string  { return s.Value }
+func (s *StringLiteral) expressionNode()  {}
+func (s *StringLiteral) NodeType() string { return "StringLiteral" }
+func (s *StringLiteral) String() string   { return s.Value }
 
 type Variable struct {
 	Name string
 }
 
-func (v *Variable) expressionNode()    {}
-func (v *Variable) NodeType() string  { return "Variable" }
-func (v *Variable) String() string  { return v.Name }
+func (v *Variable) expressionNode()  {}
+func (v *Variable) NodeType() string { return "Variable" }
+func (v *Variable) String() string   { return v.Name }
 
 type BinaryExpr struct {
 	Left  Expression
@@ -72,14 +72,14 @@ type BinaryExpr struct {
 	Right Expression
 }
 
-func (b *BinaryExpr) expressionNode() {}
+func (b *BinaryExpr) expressionNode()  {}
 func (b *BinaryExpr) NodeType() string { return "BinaryExpr" }
 func (b *BinaryExpr) String() string {
 	return fmt.Sprintf("(%s %s %s)", b.Left, b.Op, b.Right)
 }
 
 type UnaryExpr struct {
-	Op    string
+	Op   string
 	Expr Expression
 }
 
@@ -93,7 +93,7 @@ type CallExpr struct {
 	Args []Expression
 }
 
-func (c *CallExpr) expressionNode() {}
+func (c *CallExpr) expressionNode()  {}
 func (c *CallExpr) NodeType() string { return "CallExpr" }
 func (c *CallExpr) String() string {
 	var a []string
@@ -121,7 +121,7 @@ type ArrayElement struct {
 	Value Expression
 }
 
-func (a *ArrayElement) NodeType() string   { return "ArrayElement" }
+func (a *ArrayElement) NodeType() string { return "ArrayElement" }
 func (a *ArrayElement) String() string {
 	if a.Key != nil {
 		return fmt.Sprintf("%s => %s", a.Key, a.Value)
@@ -133,7 +133,7 @@ type EchoStatement struct {
 	Values []Expression
 }
 
-func (e *EchoStatement) statementNode() {}
+func (e *EchoStatement) statementNode()   {}
 func (e *EchoStatement) NodeType() string { return "EchoStatement" }
 func (e *EchoStatement) String() string {
 	var v []string
@@ -147,8 +147,8 @@ type ReturnStatement struct {
 	Value Expression
 }
 
-func (r *ReturnStatement) statementNode() {}
-func (r *ReturnStatement) NodeType() string  { return "ReturnStatement" }
+func (r *ReturnStatement) statementNode()   {}
+func (r *ReturnStatement) NodeType() string { return "ReturnStatement" }
 func (r *ReturnStatement) String() string {
 	if r.Value != nil {
 		return fmt.Sprintf("return %s;", r.Value)
@@ -161,7 +161,7 @@ type Assignment struct {
 	Value Expression
 }
 
-func (a *Assignment) statementNode() {}
+func (a *Assignment) statementNode()   {}
 func (a *Assignment) NodeType() string { return "Assignment" }
 func (a *Assignment) String() string {
 	return fmt.Sprintf("%s = %s;", a.Name, a.Value)
@@ -171,7 +171,7 @@ type Block struct {
 	Statements []Statement
 }
 
-func (b *Block) statementNode() {}
+func (b *Block) statementNode()   {}
 func (b *Block) NodeType() string { return "Block" }
 func (b *Block) String() string {
 	var s []string
@@ -187,7 +187,7 @@ type IfStatement struct {
 	Else      []Statement
 }
 
-func (i *IfStatement) statementNode() {}
+func (i *IfStatement) statementNode()   {}
 func (i *IfStatement) NodeType() string { return "IfStatement" }
 func (i *IfStatement) String() string {
 	var else_ string
@@ -202,26 +202,26 @@ func (i *IfStatement) String() string {
 }
 
 type ForStatement struct {
-	Init     Expression
+	Init      Expression
 	Condition Expression
-	Update   Expression
-	Body     *Block
+	Update    Expression
+	Body      *Block
 }
 
-func (f *ForStatement) statementNode() {}
+func (f *ForStatement) statementNode()   {}
 func (f *ForStatement) NodeType() string { return "ForStatement" }
 func (f *ForStatement) String() string {
 	return fmt.Sprintf("for (%s; %s; %s) %s", f.Init, f.Condition, f.Update, f.Body)
 }
 
 type ForeachStatement struct {
-	Expr   Expression
-	Key    Expression
-	Value  Expression
-	Body   *Block
+	Expr  Expression
+	Key   Expression
+	Value Expression
+	Body  *Block
 }
 
-func (f *ForeachStatement) statementNode() {}
+func (f *ForeachStatement) statementNode()   {}
 func (f *ForeachStatement) NodeType() string { return "ForeachStatement" }
 func (f *ForeachStatement) String() string {
 	if f.Key != nil {
@@ -235,7 +235,7 @@ type WhileStatement struct {
 	Body      *Block
 }
 
-func (w *WhileStatement) statementNode() {}
+func (w *WhileStatement) statementNode()   {}
 func (w *WhileStatement) NodeType() string { return "WhileStatement" }
 func (w *WhileStatement) String() string {
 	return fmt.Sprintf("while (%s) %s", w.Condition, w.Body)
@@ -254,7 +254,7 @@ func (d *DoWhileStatement) String() string {
 type SwitchStatement struct {
 	Condition Expression
 	Cases     []SwitchCase
-	Default  []Statement
+	Default   []Statement
 }
 
 func (s *SwitchStatement) NodeType() string { return "SwitchStatement" }
@@ -282,7 +282,7 @@ type FunctionDecl struct {
 	Body       *Block
 }
 
-func (f *FunctionDecl) statementNode() {}
+func (f *FunctionDecl) statementNode()   {}
 func (f *FunctionDecl) NodeType() string { return "FunctionDecl" }
 func (f *FunctionDecl) String() string {
 	return fmt.Sprintf("function %s(...) { ... }", f.Name)
@@ -290,8 +290,8 @@ func (f *FunctionDecl) String() string {
 
 type FunctionParam struct {
 	Name       string
-	Type      string
-	Default   Expression
+	Type       string
+	Default    Expression
 	IsVariadic bool
 }
 
@@ -301,13 +301,13 @@ func (f *FunctionParam) String() string {
 }
 
 type ClassDecl struct {
-	Name         string
-	Extends     string
+	Name       string
+	Extends    string
 	Implements []string
-	Body        *Block
+	Body       *Block
 }
 
-func (c *ClassDecl) statementNode() {}
+func (c *ClassDecl) statementNode()   {}
 func (c *ClassDecl) NodeType() string { return "ClassDecl" }
 func (c *ClassDecl) String() string {
 	return fmt.Sprintf("class %s { ... }", c.Name)
@@ -315,7 +315,7 @@ func (c *ClassDecl) String() string {
 
 type ClassMethod struct {
 	Name       string
-	Modifiers []string
+	Modifiers  []string
 	Params     []FunctionParam
 	ReturnType string
 	Body       *Block
@@ -327,7 +327,7 @@ func (c *ClassMethod) String() string {
 }
 
 type TraitDecl struct {
-	Name  string
+	Name string
 	Body *Block
 }
 
@@ -348,7 +348,7 @@ func (i *InterfaceDecl) String() string {
 }
 
 type NamespaceDecl struct {
-	Name  string
+	Name string
 	Body []Statement
 }
 
@@ -374,15 +374,15 @@ type StaticProperty struct {
 }
 
 type StaticCall struct {
-	Class string
+	Class  string
 	Method string
-	Args  []Expression
+	Args   []Expression
 }
 
 type MethodCall struct {
 	Receiver Expression
-	Method  string
-	Args    []Expression
+	Method   string
+	Args     []Expression
 }
 
 type PropertyFetch struct {
