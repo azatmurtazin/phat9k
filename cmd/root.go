@@ -1,9 +1,11 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 
+	"github.com/phat9k/analyzer"
 	"github.com/phat9k/parser"
 )
 
@@ -65,7 +67,42 @@ func runParse(args []string) error {
 }
 
 func runAnalyze(args []string) error {
-	return fmt.Errorf("not implemented")
+	if len(args) < 1 {
+		return fmt.Errorf("usage: phat9k analyze <file>")
+	}
+
+	src, err := os.ReadFile(args[0])
+	if err != nil {
+		return fmt.Errorf("reading file: %w", err)
+	}
+
+	p := parser.New(string(src))
+	ast, err := p.Parse()
+	if err != nil {
+		return fmt.Errorf("parsing: %w", err)
+	}
+
+	a := analyzer.New(ast)
+	result, err := a.Analyze()
+	if err != nil {
+		return fmt.Errorf("analyzing: %w", err)
+	}
+
+	output := "text"
+	for _, arg := range args[1:] {
+		if arg == "-o" || arg == "--output" {
+			output = "json"
+		}
+	}
+
+	if output == "json" {
+		enc := json.NewEncoder(os.Stdout)
+		enc.SetIndent("", "  ")
+		enc.Encode(result)
+	} else {
+		fmt.Println(analyzer.FormatResult(result))
+	}
+	return nil
 }
 
 func runRun(args []string) error {
