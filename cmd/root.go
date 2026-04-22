@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/phat9k/analyzer"
+	"github.com/phat9k/interpreter"
 	"github.com/phat9k/parser"
 )
 
@@ -106,7 +107,29 @@ func runAnalyze(args []string) error {
 }
 
 func runRun(args []string) error {
-	return fmt.Errorf("not implemented")
+	if len(args) < 1 {
+		return fmt.Errorf("usage: phat9k run <file>")
+	}
+
+	src, err := os.ReadFile(args[0])
+	if err != nil {
+		return fmt.Errorf("reading file: %w", err)
+	}
+
+	p := parser.New(string(src))
+	ast, err := p.Parse()
+	if err != nil {
+		return fmt.Errorf("parsing: %w", err)
+	}
+
+	r := interpreter.New(ast)
+	result := r.Execute()
+	if result.Error != nil {
+		return fmt.Errorf("runtime error: %w", result.Error)
+	}
+
+	fmt.Print(result.Output)
+	return nil
 }
 
 func runTranspile(args []string) error {
