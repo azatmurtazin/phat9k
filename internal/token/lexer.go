@@ -27,15 +27,8 @@ const maxTokens = 10000
 
 func (l *Lexer) Tokenize() []Token {
 	var tokens []Token
-	prevPos := -1
 
 	for l.pos < len(l.src) && len(tokens) < maxTokens {
-		// Detect infinite loop
-		if l.pos == prevPos {
-			break
-		}
-		prevPos = l.pos
-
 		tok := l.scanToken()
 		tokens = append(tokens, tok)
 	}
@@ -156,10 +149,17 @@ func (l *Lexer) scanNumber() Token {
 
 func (l *Lexer) scanIdent() Token {
 	start := l.pos
+	isVar := false
+
+	if l.pos < len(l.src) && l.src[l.pos] == '$' {
+		isVar = true
+		l.pos++
+		l.column++
+	}
 
 	for l.pos < len(l.src) {
 		c := l.src[l.pos]
-		if unicode.IsLetter(rune(c)) || unicode.IsDigit(rune(c)) || c == '_' {
+		if unicode.IsLetter(rune(c)) || unicode.IsDigit(rune(c)) || c == '_' || c == '$' {
 			l.pos++
 			l.column++
 			continue
@@ -173,7 +173,7 @@ func (l *Lexer) scanIdent() Token {
 		return Token{Type: kw, Literal: value, Line: l.line, Column: l.column - len(value)}
 	}
 
-	if len(value) > 0 && value[0] == '$' && len(value) > 1 {
+	if isVar {
 		return Token{Type: T_VARIABLE, Literal: value, Line: l.line, Column: l.column - len(value)}
 	}
 

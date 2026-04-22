@@ -31,15 +31,18 @@ func (p *Parser) Parse() (*ast.Program, error) {
 
 	stmts := []ast.Statement{}
 	for p.pos < len(p.tokens) {
-		if p.peek().Type == token.T_CLOSE_TAG {
-			break
-		}
 		stmt, err := p.parseStatement()
 		if err != nil {
 			return nil, err
 		}
 		if stmt != nil {
 			stmts = append(stmts, stmt)
+		}
+		if p.peek().Type == token.T_CLOSE_TAG {
+			break
+		}
+		if stmt == nil && p.peek().Type == token.T_EOF {
+			break
 		}
 	}
 
@@ -92,7 +95,7 @@ func (p *Parser) parseStatement() (ast.Statement, error) {
 		p.advance()
 		return p.parseStatement()
 	default:
-		if tok.Type == token.T_STRING && p.peekNext().Type == token.T_EQUAL {
+		if (tok.Type == token.T_STRING || tok.Type == token.T_VARIABLE) && p.peekNext().Type == token.T_EQUAL {
 			return p.parseAssignment()
 		}
 		// Skip unknown tokens to prevent infinite loop
@@ -144,7 +147,8 @@ func (p *Parser) parseBinaryExpr() (ast.Expression, error) {
 
 	for p.peek().Type == token.T_PLUS || p.peek().Type == token.T_MINUS ||
 		p.peek().Type == token.T_MULT || p.peek().Type == token.T_DIV ||
-		p.peek().Type == token.T_CONCAT {
+		p.peek().Type == token.T_CONCAT || p.peek().Type == token.T_GREATER ||
+		p.peek().Type == token.T_SMALLER || p.peek().Type == token.T_IS_EQUAL {
 		op := p.advance()
 		right, err := p.parsePrimary()
 		if err != nil {
@@ -287,7 +291,9 @@ func (p *Parser) parseFor() (*ast.ForStatement, error) {
 	_, _ = p.parseExpression()
 	p.advance() // skip ;
 	_, _ = p.parseExpression()
-	p.advance() // skip )
+	if p.peek().Type == token.T_RIGHT_PAREN {
+		p.advance()
+	}
 	body := p.parseBlock()
 
 	return &ast.ForStatement{Body: body}, nil
