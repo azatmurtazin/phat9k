@@ -1,6 +1,6 @@
 .PHONY: test test-coverage lint build clean install
 
-BIN := phat9k
+BIN := bin/phat9k
 COVER_PROFILE := coverage.out
 LINT_CONFIG := .golangci.yml
 
@@ -23,10 +23,11 @@ govuln:
 	govulncheck ./...
 
 build:
-	go build -o $(BIN) .
+	mkdir -p bin
+	go build -o $(BIN) ./cmd/phat9k
 
 clean:
-	rm -f $(BIN) $(COVER_PROFILE) coverage.html
+	rm -rf bin $(COVER_PROFILE) coverage.html
 
 install:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
