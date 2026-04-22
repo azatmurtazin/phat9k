@@ -1,0 +1,35 @@
+package main
+
+import (
+	"fmt"
+)
+
+type Calculator struct {
+}
+
+func (c *Calculator) add(a, b int) int {
+	return a + b
+}
+
+func (c *Calculator) subtract(a, b int) int {
+	return a - b
+}
+
+func (c *Calculator) multiply(a, b int) int {
+	return a * b
+}
+
+func (c *Calculator) divide(a, b int) int {
+	if b == 0 {
+		return 0
+	}
+	return a / b
+}
+
+func main() {
+	c := Calculator{}
+	fmt.Println(c.add(10, 5))
+	fmt.Println(c.subtract(10, 5))
+	fmt.Println(c.multiply(10, 5))
+	fmt.Println(c.divide(10, 5))
+}

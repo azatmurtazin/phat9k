@@ -1,0 +1,26 @@
+package main
+
+import (
+	"fmt"
+)
+
+type Drawable interface {
+	draw()
+}
+
+type Circle struct {
+}
+
+func (c *Circle) draw() {
+	fmt.Println("Drawing a circle")
+}
+
+type Square struct {
+}
+
+func (s *Square) draw() {
+	fmt.Println("Drawing a square")
+}
+
+func main() {
+}

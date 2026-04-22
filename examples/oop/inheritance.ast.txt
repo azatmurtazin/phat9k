@@ -1,0 +1,3 @@
+ClassDecl: Animal
+ClassDecl: Dog
+ClassDecl: Cat

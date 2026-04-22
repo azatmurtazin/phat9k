@@ -1,0 +1,17 @@
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	array := []int{1, 2, 3, 4, 5}
+	fmt.Println("Count:", len(array))
+
+	associative := map[string]interface{}{"name": "John", "age": 30}
+	fmt.Println("Name:", associative["name"])
+	fmt.Println("Age:", associative["age"])
+
+	array = append(array, 6)
+	fmt.Println("Last:", array[len(array)-1])
+}

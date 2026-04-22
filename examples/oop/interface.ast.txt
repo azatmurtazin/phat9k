@@ -1,0 +1,3 @@
+InterfaceDecl: Drawable
+ClassDecl: Circle
+ClassDecl: Square

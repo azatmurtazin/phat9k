@@ -1,0 +1,5 @@
+ClassDecl: Calculator
+FunctionDecl: add
+FunctionDecl: subtract
+FunctionDecl: multiply
+FunctionDecl: divide
