@@ -20,7 +20,7 @@
 ## Parser
 
 - [ ] Complete error reporting with source locations
-- [ ] Fix infinite loop in control flow parsing
+- [x] Fix infinite loop in control flow parsing
 - [ ] Handle all edge cases in PHP syntax
 
 ## Analyzer
@@ -68,6 +68,5 @@ Current success rates (~23 example files):
 
 ## Known Issues
 
-- Parser infinite loop for control flow statements
 - Arrays not fully supported in interpreter
 - Some PHP stdlib functions not implemented

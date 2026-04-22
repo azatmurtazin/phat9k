@@ -29,17 +29,17 @@ Build a Go-based tool that can:
 ## Key Files
 
 ```
-main.go              - Entry point
-cmd/root.go          - CLI commands
-parser/parser.go    - PHP parser
-analyzer/           - PHP code analyzer
-interpreter/        - PHP interpreter
-transpiler/         - PHP to Go transpiler
-internal/token/     - Lexer & tokens
-internal/ast/       - AST node types
-examples/           - PHP test examples
-tests.yml           - Test results matrix
-docs/               - Documentation
+cmd/phat9k/main.go   - CLI entry point (binary: ./bin/phat9k)
+cmd/root.go        - CLI commands
+parser/parser.go   - PHP parser
+analyzer/         - PHP code analyzer
+interpreter/      - PHP interpreter
+transpiler/        - PHP to Go transpiler
+internal/token/    - Lexer & tokens
+internal/ast/      - AST node types
+examples/         - PHP test examples
+tests.yml         - Test results matrix
+docs/              - Documentation
 ```
 
 ## Architecture
