@@ -1,0 +1,11 @@
+[]
+allowlist = []
+
+# Add secret patterns to ignore here
+# Format: <hex-encoded-diff>
+# Example:
+# [rules]
+#   allowlist = [
+#     ".*(?i)(api.key|apikey|secret)=(['\\"]?)[0-9a-zA-Z]{10,45}\\2",
+#     ".*AWS_SECRET.*(['\\"]?)[0-9a-zA-Z\\/+=]{40}\\1"
+#   ]
