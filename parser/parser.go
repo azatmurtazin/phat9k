@@ -18,12 +18,12 @@ func New(src string) *Parser {
 func (p *Parser) Parse() (*ast.Program, error) {
 	lexer := token.NewLexer(p.src)
 	p.tokens = lexer.Tokenize()
-	
+
 	// Skip PHP opening tag
 	if len(p.tokens) > 0 && p.tokens[0].Type == token.T_OPEN_TAG {
 		p.pos++
 	}
-	
+
 	stmts := []ast.Statement{}
 	for p.pos < len(p.tokens) {
 		if p.peek().Type == token.T_CLOSE_TAG {
@@ -37,7 +37,7 @@ func (p *Parser) Parse() (*ast.Program, error) {
 			stmts = append(stmts, stmt)
 		}
 	}
-	
+
 	return &ast.Program{Body: stmts}, nil
 }
 
@@ -56,7 +56,7 @@ func (p *Parser) advance() token.Token {
 
 func (p *Parser) parseStatement() (ast.Statement, error) {
 	tok := p.peek()
-	
+
 	switch tok.Type {
 	case token.T_ECHO:
 		return p.parseEcho()
@@ -95,7 +95,7 @@ func (p *Parser) peekNext() token.Token {
 
 func (p *Parser) parseEcho() (*ast.EchoStatement, error) {
 	p.advance() // skip echo
-	
+
 	exprs := []ast.Expression{}
 	for p.peek().Type != token.T_SEMICOLON && p.peek().Type != token.T_CLOSE_TAG && p.peek().Type != token.T_EOF {
 		expr, err := p.parseExpression()
@@ -106,11 +106,11 @@ func (p *Parser) parseEcho() (*ast.EchoStatement, error) {
 			exprs = append(exprs, expr)
 		}
 	}
-	
+
 	if p.peek().Type == token.T_SEMICOLON {
 		p.advance()
 	}
-	
+
 	return &ast.EchoStatement{Values: exprs}, nil
 }
 
@@ -123,7 +123,7 @@ func (p *Parser) parseBinaryExpr() (ast.Expression, error) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	for p.peek().Type == token.T_PLUS || p.peek().Type == token.T_MINUS ||
 		p.peek().Type == token.T_MULT || p.peek().Type == token.T_DIV ||
 		p.peek().Type == token.T_CONCAT {
@@ -138,13 +138,13 @@ func (p *Parser) parseBinaryExpr() (ast.Expression, error) {
 			Right: right,
 		}
 	}
-	
+
 	return left, nil
 }
 
 func (p *Parser) parsePrimary() (ast.Expression, error) {
 	tok := p.peek()
-	
+
 	switch tok.Type {
 	case token.T_STRING:
 		p.advance()
@@ -178,7 +178,7 @@ func (p *Parser) parsePrimary() (ast.Expression, error) {
 func (p *Parser) parseCall(tok token.Token) (*ast.CallExpr, error) {
 	p.advance() // skip function name
 	p.advance() // skip (
-	
+
 	args := []ast.Expression{}
 	for p.peek().Type != token.T_RIGHT_PAREN && p.peek().Type != token.T_EOF {
 		expr, err := p.parseExpression()
@@ -192,20 +192,20 @@ func (p *Parser) parseCall(tok token.Token) (*ast.CallExpr, error) {
 			p.advance()
 		}
 	}
-	
+
 	if p.peek().Type == token.T_RIGHT_PAREN {
 		p.advance()
 	}
-	
+
 	return &ast.CallExpr{Func: tok.Literal, Args: args}, nil
 }
 
 func (p *Parser) parseFunction() (*ast.FunctionDecl, error) {
 	p.advance() // skip function
-	
+
 	nameTok := p.advance()
 	name := nameTok.Literal
-	
+
 	if p.peek().Type == token.T_LEFT_PAREN {
 		p.advance()
 		for p.peek().Type != token.T_RIGHT_PAREN && p.peek().Type != token.T_EOF {
@@ -218,20 +218,20 @@ func (p *Parser) parseFunction() (*ast.FunctionDecl, error) {
 			p.advance()
 		}
 	}
-	
+
 	_ = p.parseBlock()
-	
+
 	return &ast.FunctionDecl{Name: name}, nil
 }
 
 func (p *Parser) parseClass() (*ast.ClassDecl, error) {
 	p.advance() // skip class
-	
+
 	nameTok := p.advance()
 	name := nameTok.Literal
-	
+
 	_ = p.parseBlock()
-	
+
 	return &ast.ClassDecl{Name: name}, nil
 }
 
@@ -241,13 +241,13 @@ func (p *Parser) parseIf() (*ast.IfStatement, error) {
 	cond, _ := p.parseExpression()
 	p.advance() // skip )
 	then := p.parseBlock()
-	
+
 	var else_ []ast.Statement
 	if p.peek().Type == token.T_ELSE {
 		p.advance()
 		else_ = p.parseBlock().Statements
 	}
-	
+
 	return &ast.IfStatement{Condition: cond, Then: then, Else: else_}, nil
 }
 
@@ -261,7 +261,7 @@ func (p *Parser) parseFor() (*ast.ForStatement, error) {
 	_, _ = p.parseExpression()
 	p.advance() // skip )
 	body := p.parseBlock()
-	
+
 	return &ast.ForStatement{Body: body}, nil
 }
 
@@ -277,7 +277,7 @@ func (p *Parser) parseForeach() (*ast.ForeachStatement, error) {
 	}
 	p.advance() // skip )
 	body := p.parseBlock()
-	
+
 	return &ast.ForeachStatement{Body: body}, nil
 }
 
@@ -287,22 +287,22 @@ func (p *Parser) parseWhile() (*ast.WhileStatement, error) {
 	_, _ = p.parseExpression()
 	p.advance() // skip )
 	body := p.parseBlock()
-	
+
 	return &ast.WhileStatement{Body: body}, nil
 }
 
 func (p *Parser) parseReturn() (*ast.ReturnStatement, error) {
 	p.advance() // skip return
-	
+
 	var val ast.Expression
 	if p.peek().Type != token.T_SEMICOLON {
 		val, _ = p.parseExpression()
 	}
-	
+
 	if p.peek().Type == token.T_SEMICOLON {
 		p.advance()
 	}
-	
+
 	return &ast.ReturnStatement{Value: val}, nil
 }
 
@@ -313,7 +313,7 @@ func (p *Parser) parseAssignment() (*ast.Assignment, error) {
 	if p.peek().Type == token.T_SEMICOLON {
 		p.advance()
 	}
-	
+
 	return &ast.Assignment{Name: name.Literal, Value: val}, nil
 }
 
@@ -322,7 +322,7 @@ func (p *Parser) parseBlock() *ast.Block {
 		return &ast.Block{}
 	}
 	p.advance() // skip {
-	
+
 	stmts := []ast.Statement{}
 	for p.peek().Type != token.T_RIGHT_BRACE && p.peek().Type != token.T_EOF {
 		stmt, _ := p.parseStatement()
@@ -330,10 +330,10 @@ func (p *Parser) parseBlock() *ast.Block {
 			stmts = append(stmts, stmt)
 		}
 	}
-	
+
 	if p.peek().Type == token.T_RIGHT_BRACE {
 		p.advance()
 	}
-	
+
 	return &ast.Block{Statements: stmts}
 }

@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-**Project Name:** Phat9k  
-**Project Type:** Developer Tool  
-**Language:** Go  
+**Project Name:** Phat9k
+**Project Type:** Developer Tool
+**Language:** Go
 
 **Core Functionality:** A PHP code parser, analyzer, interpreter and transpiler that converts PHP code to Go code.
 

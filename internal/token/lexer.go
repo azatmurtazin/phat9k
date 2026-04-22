@@ -25,14 +25,14 @@ func NewLexer(src string) *Lexer {
 
 func (l *Lexer) Tokenize() []Token {
 	var tokens []Token
-	
+
 	for l.pos < len(l.src) {
 		tok := l.scanToken()
 		tokens = append(tokens, tok)
 	}
-	
+
 	tokens = append(tokens, Token{Type: T_EOF, Line: l.line, Column: l.column})
-	
+
 	return tokens
 }
 
@@ -40,22 +40,22 @@ func (l *Lexer) scanToken() Token {
 	if l.pos >= len(l.src) {
 		return Token{Type: T_EOF, Line: l.line, Column: l.column}
 	}
-	
+
 	c := l.src[l.pos]
-	
+
 	if c == '\n' {
 		l.pos++
 		l.line++
 		l.column = 1
 		return l.scanToken()
 	}
-	
+
 	if unicode.IsSpace(rune(c)) {
 		l.pos++
 		l.column++
 		return l.scanToken()
 	}
-	
+
 	if c == '=' {
 		l.pos++
 		l.column++
@@ -66,19 +66,19 @@ func (l *Lexer) scanToken() Token {
 		}
 		return Token{Type: T_EQUAL, Literal: "=", Line: l.line, Column: l.column - 1}
 	}
-	
+
 	if c == '"' || c == '\'' {
 		return l.scanString(c)
 	}
-	
+
 	if unicode.IsDigit(rune(c)) {
 		return l.scanNumber()
 	}
-	
+
 	if unicode.IsLetter(rune(c)) || c == '_' || c == '$' {
 		return l.scanIdent()
 	}
-	
+
 	return l.scanPunct()
 }
 
@@ -86,7 +86,7 @@ func (l *Lexer) scanString(quote byte) Token {
 	start := l.pos
 	l.pos++
 	l.column++
-	
+
 	for l.pos < len(l.src) && l.src[l.pos] != quote {
 		if l.src[l.pos] == '\\' && l.pos+1 < len(l.src) {
 			l.pos += 2
@@ -102,14 +102,14 @@ func (l *Lexer) scanString(quote byte) Token {
 		l.pos++
 		l.column++
 	}
-	
+
 	if l.pos < len(l.src) {
 		l.pos++
 		l.column++
 	}
-	
+
 	value := l.src[start:l.pos]
-	
+
 	if quote == '"' {
 		return Token{Type: T_CONSTANT_ENCAPSED_STRING, Literal: value, Line: l.line, Column: l.column - len(value)}
 	}
@@ -119,7 +119,7 @@ func (l *Lexer) scanString(quote byte) Token {
 func (l *Lexer) scanNumber() Token {
 	start := l.pos
 	hasDot := false
-	
+
 	for l.pos < len(l.src) {
 		c := l.src[l.pos]
 		if unicode.IsDigit(rune(c)) {
@@ -135,10 +135,10 @@ func (l *Lexer) scanNumber() Token {
 		}
 		break
 	}
-	
+
 	value := l.src[start:l.pos]
 	l.column += len(value)
-	
+
 	if hasDot {
 		return Token{Type: T_DNUMBER, Literal: value, Line: l.line, Column: l.column - len(value)}
 	}
@@ -147,7 +147,7 @@ func (l *Lexer) scanNumber() Token {
 
 func (l *Lexer) scanIdent() Token {
 	start := l.pos
-	
+
 	for l.pos < len(l.src) {
 		c := l.src[l.pos]
 		if unicode.IsLetter(rune(c)) || unicode.IsDigit(rune(c)) || c == '_' {
@@ -157,17 +157,17 @@ func (l *Lexer) scanIdent() Token {
 		}
 		break
 	}
-	
+
 	value := l.src[start:l.pos]
-	
+
 	if kw, ok := keywords[value]; ok {
 		return Token{Type: kw, Literal: value, Line: l.line, Column: l.column - len(value)}
 	}
-	
+
 	if len(value) > 0 && value[0] == '$' && len(value) > 1 {
 		return Token{Type: T_VARIABLE, Literal: value, Line: l.line, Column: l.column - len(value)}
 	}
-	
+
 	return Token{Type: T_STRING, Literal: value, Line: l.line, Column: l.column - len(value)}
 }
 
@@ -176,7 +176,7 @@ func (l *Lexer) scanPunct() Token {
 	c := l.src[l.pos]
 	l.pos++
 	l.column++
-	
+
 	switch c {
 	case '(':
 		return Token{Type: T_LEFT_PAREN, Literal: "(", Line: l.line, Column: startCol}
@@ -355,14 +355,14 @@ func (l *Lexer) scanPunct() Token {
 	case '$':
 		return l.scanVariable()
 	}
-	
+
 	return Token{Type: T_STRING, Literal: string(c), Line: l.line, Column: startCol}
 }
 
 func (l *Lexer) scanVariable() Token {
 	start := l.pos - 1
 	startCol := l.column - 1
-	
+
 	for l.pos < len(l.src) {
 		c := l.src[l.pos]
 		if unicode.IsLetter(rune(c)) || unicode.IsDigit(rune(c)) || c == '_' {
@@ -372,7 +372,7 @@ func (l *Lexer) scanVariable() Token {
 		}
 		break
 	}
-	
+
 	value := l.src[start:l.pos]
 	if value == "$" {
 		return Token{Type: T_VARIABLE, Literal: "$", Line: l.line, Column: startCol}
@@ -383,19 +383,19 @@ func (l *Lexer) scanVariable() Token {
 func (l *Lexer) scanComment() Token {
 	start := l.pos - 1
 	startCol := l.column - 1
-	
+
 	for l.pos < len(l.src) && l.src[l.pos] != '\n' {
 		l.pos++
 		l.column++
 	}
-	
+
 	return Token{Type: T_STRING, Literal: l.src[start:l.pos], Line: l.line, Column: startCol}
 }
 
 func (l *Lexer) scanBlockComment() Token {
 	l.pos += 2
 	l.column += 2
-	
+
 	for l.pos+1 < len(l.src) {
 		if l.src[l.pos] == '*' && l.src[l.pos+1] == '/' {
 			l.pos += 2
@@ -409,7 +409,7 @@ func (l *Lexer) scanBlockComment() Token {
 		l.pos++
 		l.column++
 	}
-	
+
 	return Token{Type: T_STRING, Literal: "comment", Line: l.line, Column: 1}
 }
 

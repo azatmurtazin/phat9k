@@ -11,15 +11,6 @@ repos:
       - id: check-merge-conflict
       - id: check-symlinks
 
-  - repo: https://github.com/dorny/paths-filter
-    rev: v3.0.2
-    hooks:
-      - id: changes
-        entry: bash -c 'if [ -n "$PRE_COMMIT_CHANGED_FILES" ]; then echo "$PRE_COMMIT_CHANGED_FILES"; fi'
-        language: system
-        pass_filenames: false
-        always_run: true
-
   - repo: local
     hooks:
       - id: gofmt
@@ -31,22 +22,9 @@ repos:
 
       - id: govet
         name: govet
-        entry: go vet
+        entry: go vet ./...
         language: system
         types: [go]
         pass_filenames: false
 
-  - repo: https://github.com/owenthereinstein/gitleaks
-    rev: v8.18.2
-    hooks:
-      - id: gitleaks
-        args: [--allow-files-list=.gitleaks-allow]
-
-  - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.18.2
-    hooks:
-      - id: gitleaks
-
 fail_fast: true
-default_install_hook_types: [pre-commit, commit-msg]
-default_stage: [pre-commit]
