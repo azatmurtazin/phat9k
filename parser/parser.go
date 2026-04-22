@@ -1,6 +1,8 @@
 package parser
 
 import (
+	"fmt"
+
 	"github.com/phat9k/internal/ast"
 	"github.com/phat9k/internal/token"
 )
@@ -9,7 +11,10 @@ type Parser struct {
 	src    string
 	tokens []token.Token
 	pos    int
+	depth  int
 }
+
+const maxDepth = 1000
 
 func New(src string) *Parser {
 	return &Parser{src: src}
@@ -55,7 +60,16 @@ func (p *Parser) advance() token.Token {
 }
 
 func (p *Parser) parseStatement() (ast.Statement, error) {
+	p.depth++
+	if p.depth > 50 {
+		return nil, fmt.Errorf("max parse depth exceeded: %d", p.depth)
+	}
+	defer func() { p.depth-- }()
+
 	tok := p.peek()
+	if tok.Type == token.T_EOF || tok.Type == token.T_CLOSE_TAG {
+		return nil, nil
+	}
 
 	switch tok.Type {
 	case token.T_ECHO:
@@ -81,8 +95,12 @@ func (p *Parser) parseStatement() (ast.Statement, error) {
 		if tok.Type == token.T_STRING && p.peekNext().Type == token.T_EQUAL {
 			return p.parseAssignment()
 		}
-		p.pos++
-		return nil, nil
+		// Skip unknown tokens to prevent infinite loop
+		p.advance()
+		if p.pos >= len(p.tokens) {
+			return nil, nil
+		}
+		return p.parseStatement()
 	}
 }
 
@@ -237,9 +255,19 @@ func (p *Parser) parseClass() (*ast.ClassDecl, error) {
 
 func (p *Parser) parseIf() (*ast.IfStatement, error) {
 	p.advance() // skip if
-	p.advance() // skip (
+	
+	// Skip opening parenthesis if present
+	if p.peek().Type == token.T_LEFT_PAREN {
+		p.advance()
+	}
+	
 	cond, _ := p.parseExpression()
-	p.advance() // skip )
+	
+	// Skip closing parenthesis if present
+	if p.peek().Type == token.T_RIGHT_PAREN {
+		p.advance()
+	}
+	
 	then := p.parseBlock()
 
 	var else_ []ast.Statement

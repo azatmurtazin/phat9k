@@ -23,10 +23,19 @@ func NewLexer(src string) *Lexer {
 	return &Lexer{src: src, line: 1, column: 1}
 }
 
+const maxTokens = 10000
+
 func (l *Lexer) Tokenize() []Token {
 	var tokens []Token
+	prevPos := -1
 
-	for l.pos < len(l.src) {
+	for l.pos < len(l.src) && len(tokens) < maxTokens {
+		// Detect infinite loop
+		if l.pos == prevPos {
+			break
+		}
+		prevPos = l.pos
+
 		tok := l.scanToken()
 		tokens = append(tokens, tok)
 	}
