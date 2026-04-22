@@ -28,12 +28,10 @@ func (l *Lexer) Tokenize() []Token {
 	
 	for l.pos < len(l.src) {
 		tok := l.scanToken()
-		if tok.Type == T_EOF {
-			tokens = append(tokens, tok)
-			break
-		}
 		tokens = append(tokens, tok)
 	}
+	
+	tokens = append(tokens, Token{Type: T_EOF, Line: l.line, Column: l.column})
 	
 	return tokens
 }
@@ -161,17 +159,12 @@ func (l *Lexer) scanIdent() Token {
 	}
 	
 	value := l.src[start:l.pos]
-	l.column += len(value)
 	
 	if kw, ok := keywords[value]; ok {
 		return Token{Type: kw, Literal: value, Line: l.line, Column: l.column - len(value)}
 	}
 	
-	if l.pos < len(l.src) && l.src[l.pos] == '(' {
-		return Token{Type: T_STRING, Literal: value, Line: l.line, Column: l.column - len(value)}
-	}
-	
-	if value[0] == '$' {
+	if len(value) > 0 && value[0] == '$' && len(value) > 1 {
 		return Token{Type: T_VARIABLE, Literal: value, Line: l.line, Column: l.column - len(value)}
 	}
 	
