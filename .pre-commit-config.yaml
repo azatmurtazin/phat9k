@@ -27,4 +27,18 @@ repos:
         types: [go]
         pass_filenames: false
 
+      - id: go-test
+        name: go-test
+        entry: go test -v -race -short ./...
+        language: system
+        types: [go]
+        pass_filenames: false
+
+      - id: go-build
+        name: go-build
+        entry: go build -v -o /dev/null .
+        language: system
+        types: [go]
+        pass_filenames: false
+
 fail_fast: true
