@@ -1,0 +1,114 @@
+- file: examples/basic/hello_world.php
+  parser: true
+  interpreter: true
+  transpiler: true
+
+- file: examples/basic/operators.php
+  parser: true
+  interpreter: false
+  transpiler: false
+
+- file: examples/control_flow/if_else.php
+  parser: false
+  interpreter: false
+  transpiler: false
+
+- file: examples/control_flow/switch.php
+  parser: false
+  interpreter: false
+  transpiler: false
+
+- file: examples/control_flow/for_loop.php
+  parser: false
+  interpreter: false
+  transpiler: false
+
+- file: examples/control_flow/foreach.php
+  parser: false
+  interpreter: false
+  transpiler: false
+
+- file: examples/control_flow/while_loop.php
+  parser: false
+  interpreter: false
+  transpiler: false
+
+- file: examples/functions/simple_function.php
+  parser: true
+  interpreter: true
+  transpiler: true
+
+- file: examples/functions/function_with_params.php
+  parser: true
+  interpreter: true
+  transpiler: true
+
+- file: examples/functions/default_params.php
+  parser: true
+  interpreter: false
+  transpiler: false
+
+- file: examples/functions/variadic.php
+  parser: true
+  interpreter: false
+  transpiler: true
+
+- file: examples/classes/simple_class.php
+  parser: true
+  interpreter: true
+  transpiler: true
+
+- file: examples/classes/calculator.php
+  parser: true
+  interpreter: true
+  transpiler: true
+
+- file: examples/oop/inheritance.php
+  parser: true
+  interpreter: true
+  transpiler: true
+
+- file: examples/oop/interface.php
+  parser: true
+  interpreter: true
+  transpiler: true
+
+- file: examples/arrays/basic_arrays.php
+  parser: true
+  interpreter: false
+  transpiler: true
+
+- file: examples/arrays/array_functions.php
+  parser: true
+  interpreter: false
+  transpiler: false
+
+- file: examples/strings/string_functions.php
+  parser: true
+  interpreter: true
+  transpiler: true
+
+- file: examples/strings/stringFormatting.php
+  parser: true
+  interpreter: false
+  transpiler: false
+
+- file: examples/filesystem/file_operations.php
+  parser: true
+  interpreter: false
+  transpiler: false
+
+- file: examples/datetime/date_function.php
+  parser: true
+  interpreter: false
+  transpiler: false
+
+- file: examples/datetime/strtotime.php
+  parser: true
+  interpreter: false
+  transpiler: false
+
+- file: examples/errors/try_catch.php
+  parser: true
+  interpreter: false
+  transpiler: false
