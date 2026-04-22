@@ -8,14 +8,14 @@ import (
 )
 
 func TestExample_Echo(t *testing.T) {
-	src := `echo "hello";`
+	src := `<?php echo "hello";`
 	p := parser.New(src)
 	ast, err := p.Parse()
 	if err != nil {
 		t.Fatalf("parse error: %v", err)
 	}
 	if ast == nil {
-		t.Fatal("expected AST")
+		t.Fatal("nil AST")
 	}
 }
 
