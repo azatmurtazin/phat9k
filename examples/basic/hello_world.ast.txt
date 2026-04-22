@@ -1,0 +1,3 @@
+FunctionDecl: greet
+EchoStatement: "Hello, World"
+BinaryExpr: 10 + 20
