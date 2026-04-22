@@ -8,6 +8,7 @@ import (
 	"github.com/phat9k/analyzer"
 	"github.com/phat9k/interpreter"
 	"github.com/phat9k/parser"
+	"github.com/phat9k/transpiler"
 )
 
 func Run(args []string) error {
@@ -133,5 +134,38 @@ func runRun(args []string) error {
 }
 
 func runTranspile(args []string) error {
-	return fmt.Errorf("not implemented")
+	if len(args) < 1 {
+		return fmt.Errorf("usage: phat9k transpile <file>")
+	}
+
+	outFile := ""
+	for i, arg := range args[1:] {
+		if arg == "-o" && i+1 < len(args) {
+			outFile = args[i+2]
+		}
+	}
+
+	src, err := os.ReadFile(args[0])
+	if err != nil {
+		return fmt.Errorf("reading file: %w", err)
+	}
+
+	p := parser.New(string(src))
+	ast, err := p.Parse()
+	if err != nil {
+		return fmt.Errorf("parsing: %w", err)
+	}
+
+	t := transpiler.New(ast)
+	result, err := t.Transpile()
+	if err != nil {
+		return fmt.Errorf("transpiling: %w", err)
+	}
+
+	if outFile != "" {
+		return os.WriteFile(outFile, []byte(result), 0644)
+	}
+
+	fmt.Print(result)
+	return nil
 }
